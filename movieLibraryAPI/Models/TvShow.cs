@@ -8,5 +8,6 @@ public class TvShow
     public string Description { get; set; } = string.Empty;
     public string EpisodeName { get; set; } = string.Empty;
     public int EpisodeNumber { get; set; }
+    public int TotalEpisodes { get; set; }
     public Genres TvShowGenre { get; set; }
 }

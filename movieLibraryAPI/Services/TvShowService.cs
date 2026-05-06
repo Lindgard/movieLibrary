@@ -18,6 +18,7 @@ public class TvShowService
         //* make use of input to let user add a TV-show with a title
         //* and let them add other information later
 
+
         //* Added a tv-show for testing purposes
         tvList.Add(new TvShow
         {
@@ -25,6 +26,7 @@ public class TvShowService
             ReleaseYear = 1993,
             Description = "A pair of FBI agents investigate paranormal phenomena and unsolved cases, often involving extraterrestrial life.",
             Season = 1,
+            TotalEpisodes = 24,
             EpisodeName = "Pilot",
             EpisodeNumber = 01,
             TvShowGenre = Genres.SciFi
