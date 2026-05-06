@@ -25,7 +25,10 @@ Implement React frontend that links to the backend.
 ## TODO
 
 - [x] Start folder and file structure
+- [x] Add xUnit for future testing
 - [ ] Create models for lists
+- [ ] Create models for Movies and TvShows
+- [x] Create Enum for Genres
 - [ ] Service file for tv-shows
 
 ## Flowchart
