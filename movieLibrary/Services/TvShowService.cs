@@ -14,6 +14,9 @@ public class TvShowService
             Title = "The X-Files",
             ReleaseYear = 1993,
             Description = "A pair of FBI agents investigate paranormal phenomena and unsolved cases, often involving extraterrestrial life.",
+            Season = 1,
+            EpisodeName = "Pilot",
+            EpisodeNumber = 01,
             TvShowGenre = Genres.SciFi
         });
     }
