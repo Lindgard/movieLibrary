@@ -30,5 +30,6 @@ Implement React frontend that links to the backend.
 - [x] Create models for Movies and TvShows
 - [x] Create Enum for Genres
 - [x] Start service file for tv-shows
+- [x] Add Swagger
 
 ## Flowchart
