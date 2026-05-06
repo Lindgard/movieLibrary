@@ -13,8 +13,11 @@ public class TvShowService
 
     public void AddTvShow()
     {
-        var input = Console.ReadLine()?.Trim();
         //TODO create method to add new show to list
+        var input = Console.ReadLine()?.Trim();
+        //* make use of input to let user add a TV-show with a title
+        //* and let them add other information later
+
         //* Added a tv-show for testing purposes
         tvList.Add(new TvShow
         {
