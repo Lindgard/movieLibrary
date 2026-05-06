@@ -24,7 +24,7 @@ Implement React frontend that links to the backend.
 
 ## TODO
 
-- [ ] Start folder and file structure
+- [x] Start folder and file structure
 - [ ] Create models for lists
 - [ ] Service file for tv-shows
 
