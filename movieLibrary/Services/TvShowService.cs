@@ -4,10 +4,17 @@ namespace movieLibrary.Services;
 
 public class TvShowService
 {
-    private List<string> tvList = [];
+    private List<TvShow> tvList = new List<TvShow>();
 
     public TvShowService()
     {
-        tvList.Add = TvShow.Title("X-Files");
+        //* Added a tv-show for testing purposes
+        tvList.Add(new TvShow
+        {
+            Title = "The X-Files",
+            ReleaseYear = 1993,
+            Description = "A pair of FBI agents investigate paranormal phenomena and unsolved cases, often involving extraterrestrial life.",
+            TvShowGenre = Genres.SciFi
+        });
     }
 }
