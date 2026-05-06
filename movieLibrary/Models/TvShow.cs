@@ -1,5 +1,3 @@
-using movieLibrary.Models;
-
 namespace movieLibrary.Models;
 
 public class TvShow
