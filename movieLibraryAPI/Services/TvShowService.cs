@@ -18,6 +18,17 @@ public class TvShowService
         //* make use of input to let user add a TV-show with a title
         //* and let them add other information later
 
+        if (!string.IsNullOrEmpty(input))
+        {
+            tvList.Add(new TvShow
+            {
+                Title = input,
+                ReleaseYear = input.Length > 5 ? int.Parse(input.Substring(0, 4)) : 2000, // Just a placeholder for release year
+                Description = "Description not provided.",
+                Season = input.Length > 5 ? int.Parse(input.Substring(0, 4)) - 2000 : 1, // Placeholder for season based on input length
+                TotalEpisodes = input.Length > 5 ? int.Parse(input.Substring(0, 4)) - 2000 + 10 : 10, // Placeholder for total episodes
+            });
+        }
 
         //* Added a tv-show for testing purposes
         tvList.Add(new TvShow
