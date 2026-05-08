@@ -1,5 +1,3 @@
-using movieLibrary.Models.Interfaces;
-using movieLibrary.Models.TvShows;
 namespace movieLibrary.Models.TvShows;
 
 public class TvShowSeasonDTO
