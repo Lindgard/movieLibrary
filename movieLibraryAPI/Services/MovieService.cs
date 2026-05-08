@@ -70,8 +70,8 @@ public class MovieService
     /// Retrieves all movies from the list.
     /// </summary>
     /// <returns>List of all movies.</returns>
-    public List<Movie> GetAllMovies()
+    public async Task<List<Movie>> GetAllMoviesAsync()
     {
-        return _movieList;
+        return await Task.FromResult(_movieList);
     }
 }
