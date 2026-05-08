@@ -1,5 +1,5 @@
 using movieLibrary.Models.Interfaces;
-
+using movieLibrary.Models;
 namespace movieLibrary.Models.TvShows;
 
 public class TvShow : ITvShow

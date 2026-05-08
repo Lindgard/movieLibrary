@@ -1,6 +1,6 @@
 namespace movieLibrary.Models.TvShows;
 
-public class TvShowEpisode
+public class TvShowEpisodeDTO
 {
     public string EpisodeName { get; set; } = string.Empty;
     public int EpisodeNumber { get; set; }
