@@ -16,7 +16,13 @@ public class MovieService
     {
     }
 
-    public Movie AddMovie(Movie movie)
+    /// <summary>
+    /// Adds a new movie to the list and returns the added movie. 
+    /// This method simulates adding a movie to a database or another data source.
+    /// </summary>
+    /// <param name="movie">The movie to add.</param>
+    /// <returns>The added movie.</returns>
+    public async Task<Movie> AddMovieAsync(Movie movie)
     {
         var newMovie = new Movie
         {
@@ -26,23 +32,24 @@ public class MovieService
             MovieGenre = movie.MovieGenre
         };
         _movieList.Add(newMovie);
-        return newMovie;
+        return await Task.FromResult(newMovie);
     }
 
     /// <summary>
     /// Removes a movie from the list based on the title. Returns the removed movie if found, otherwise returns null.
+    /// This method simulates removing a movie from a database or another data source.
     /// </summary>
     /// <param name="title">Title of the movie to remove.</param>
     /// <returns>The removed movie if found, otherwise null.</returns>
-    public Movie? RemoveMovie(string title)
+    public async Task<Movie?> RemoveMovieAsync(string title)
     {
         var movieToRemove = _movieList.FirstOrDefault(m => m.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (movieToRemove != null)
         {
             _movieList.Remove(movieToRemove);
-            return movieToRemove;
+            return await Task.FromResult(movieToRemove);
         }
-        return null;
+        return await Task.FromResult<Movie?>(null);
     }
 
     /// <summary>
@@ -51,7 +58,7 @@ public class MovieService
     /// <param name="title">Title of the movie to update.</param>
     /// <param name="updatedMovie">Movie object containing the updated details.</param>
     /// <returns>The updated movie if found, otherwise null.</returns>
-    public Movie? UpdateMovie(string title, Movie updatedMovie)
+    public async Task<Movie?> UpdateMovieAsync(string title, Movie updatedMovie)
     {
         var movieToUpdate = _movieList.FirstOrDefault(m => m.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (movieToUpdate != null)
@@ -61,9 +68,9 @@ public class MovieService
             movieToUpdate.Description = updatedMovie.Description;
             movieToUpdate.MovieGenre = updatedMovie.MovieGenre;
             movieToUpdate.Director = updatedMovie.Director;
-            return movieToUpdate;
+            return await Task.FromResult(movieToUpdate);
         }
-        return null;
+        return await Task.FromResult<Movie?>(null);
     }
 
     /// <summary>

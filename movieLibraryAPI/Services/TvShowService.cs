@@ -19,7 +19,7 @@ public class TvShowService
     /// </summary>
     /// <param name="tvShow">The TV show to add.</param>
     /// <returns>The added TV show.</returns>
-    public TvShow AddTvShow(TvShow tvShow)
+    public Task<TvShow> AddTvShowAsync(TvShow tvShow)
     {
         var newShow = new TvShow
         {
@@ -32,7 +32,7 @@ public class TvShowService
         };
 
         _tvList.Add(newShow);
-        return newShow;
+        return Task.FromResult(newShow);
     }
 
     /// <summary>
@@ -40,15 +40,15 @@ public class TvShowService
     /// </summary>
     /// <param name="title">Title of the TV show to remove.</param>
     /// <returns>The removed TV show if found, otherwise null.</returns>
-    public TvShow? RemoveTvShow(string title)
+    public Task<TvShow?> RemoveTvShowAsync(string title)
     {
         var showToRemove = _tvList.FirstOrDefault(s => s.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (showToRemove != null)
         {
             _tvList.Remove(showToRemove);
-            return showToRemove;
+            return Task.FromResult<TvShow?>(showToRemove);
         }
-        return null;
+        return Task.FromResult<TvShow?>(null);
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ public class TvShowService
     /// <param name="title">Title of the TV show to update.</param>
     /// <param name="updatedShow">Updated TV show details.</param>
     /// <returns>The updated TV show if found, otherwise null.</returns>
-    public TvShow? UpdateTvShow(string title, TvShow updatedShow)
+    public Task<TvShow?> UpdateTvShowAsync(string title, TvShow updatedShow)
     {
         var showToUpdate = _tvList.FirstOrDefault(s => s.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
         if (showToUpdate != null)
@@ -69,7 +69,7 @@ public class TvShowService
             showToUpdate.TotalEpisodes = updatedShow.TotalEpisodes;
             showToUpdate.TvShowGenre = updatedShow.TvShowGenre;
         }
-        return showToUpdate;
+        return Task.FromResult(showToUpdate);
     }
 
     /// <summary>
