@@ -1,4 +1,4 @@
-namespace movieLibrary.Models;
+namespace movieLibrary.Models.Movies;
 
 public class Movie
 {
@@ -8,19 +8,22 @@ public class Movie
     public string Director { get; set; } = string.Empty;
     public Genres MovieGenre { get; set; }
 
+    /// <summary>
+    /// Initializes a new empty instance of the Movie class with default values.
+    /// </summary>
     public Movie()
     {
 
     }
 
     /// <summary>
-    /// Constructor that takes in parameters for all properties.
+    /// Initializes a new instance of the Movie class with the specified details.
     /// </summary>
-    /// <param name="title"></param>
-    /// <param name="releaseYear"></param>
-    /// <param name="description"></param>
-    /// <param name="director"></param>
-    /// <param name="genres"></param>
+    /// <param name="title">The title of the movie.</param>
+    /// <param name="releaseYear">The release year of the movie.</param>
+    /// <param name="description">A brief description of the movie.</param>
+    /// <param name="director">The director of the movie.</param>
+    /// <param name="genres">The genre of the movie.</param>
     public Movie(string title, int releaseYear, string description, string director, Genres genres)
     {
         Title = title;
