@@ -2,7 +2,7 @@ using movieLibrary.Services;
 using Microsoft.AspNetCore.Mvc;
 using movieLibrary.Models.Response;
 using movieLibrary.Models.DTOs;
-using movieLibrary.Models.Domain;
+using movieLibrary.Mappings;
 
 namespace movieLibrary.Controllers;
 
@@ -36,11 +36,11 @@ public class TvShowApiController : ControllerBase
         }
 
         var tvShows = await _tvShowService.GetAllTvShowsAsync();
-        return Ok(new ApiResponse
+        return Ok(new ApiResponse<List<TvShowDTO>>
         {
             StatusCode = 200,
             Message = "TV shows retrieved successfully",
-            Data = tvShows
+            Data = tvShows.Select(tvShow => tvShow.ToDto()).ToList()
         });
     }
 
@@ -51,11 +51,11 @@ public class TvShowApiController : ControllerBase
     /// <param name="newTvShow">The TV show object containing the details of the new TV show.</param>
     /// <returns>The created TV show object.</returns>
     [HttpPost("AddTvShow")]
-    public async Task<IActionResult> AddTvShow(TvShow newTvShow)
+    public async Task<IActionResult> AddTvShow(TvShowDTO newTvShow)
     {
         if (_tvShowService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<TvShowDTO>
             {
                 StatusCode = 500,
                 Message = "TV show service is not available",
@@ -64,11 +64,11 @@ public class TvShowApiController : ControllerBase
         }
         var domainModel = newTvShow.ToDomain();
         var createdTvShow = await _tvShowService.AddTvShowAsync(domainModel);
-        var response = new ApiResponse
+        var response = new ApiResponse<TvShowDTO>
         {
             StatusCode = 201,
             Message = "TV show added successfully",
-            Data = createdTvShow
+            Data = createdTvShow.ToDto()
         };
         return CreatedAtAction(nameof(GetShows), new { title = createdTvShow.Title }, response);
     }
@@ -84,7 +84,7 @@ public class TvShowApiController : ControllerBase
     {
         if (_tvShowService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<TvShowDTO>
             {
                 StatusCode = 500,
                 Message = "TV show service is not available",
@@ -94,17 +94,17 @@ public class TvShowApiController : ControllerBase
         var removedTvShow = await _tvShowService.RemoveTvShowAsync(title);
         if (removedTvShow != null)
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<TvShowDTO>
             {
                 StatusCode = 200,
                 Message = "TV show removed successfully",
-                Data = removedTvShow
+                Data = removedTvShow.ToDto()
             };
             return Ok(response);
         }
         else
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<TvShowDTO>
             {
                 StatusCode = 404,
                 Message = "TV show not found",
@@ -123,31 +123,32 @@ public class TvShowApiController : ControllerBase
     /// <param name="updatedTvShow">The TV show object containing the updated details.</param>
     /// <returns>The updated TV show object if found; otherwise, null.</returns>
     [HttpPut("UpdateTvShow")]
-    public async Task<IActionResult> UpdateTvShow(string title, TvShow updatedTvShow)
+    public async Task<IActionResult> UpdateTvShow(string title, TvShowDTO updatedTvShow)
     {
         if (_tvShowService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<TvShowDTO>
             {
                 StatusCode = 500,
                 Message = "TV show service is not available",
                 Data = null
             });
         }
-        var updatedTvShowResult = await _tvShowService.UpdateTvShowAsync(title, updatedTvShow);
+        var domainModel = updatedTvShow.ToDomain();
+        var updatedTvShowResult = await _tvShowService.UpdateTvShowAsync(title, domainModel);
         if (updatedTvShowResult != null)
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<TvShowDTO>
             {
                 StatusCode = 200,
                 Message = "TV show updated successfully",
-                Data = updatedTvShowResult
+                Data = updatedTvShowResult.ToDto()
             };
             return Ok(response);
         }
         else
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<TvShowDTO>
             {
                 StatusCode = 404,
                 Message = "TV show not found",

@@ -2,12 +2,13 @@ using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Models.DTOs;
 
-public class CreateTvShowRequestDTO
+public class CreateTvShowDTO
 {
     public string Title { get; set; } = string.Empty;
     public int ReleaseYear { get; set; }
     public string Description { get; set; } = string.Empty;
     public Genres TvShowGenre { get; set; }
     public string Creator { get; set; } = string.Empty;
-    public int Season { get; set; }
+    public int TotalEpisodes { get; set; }
+    public TvShowSeasonDTO? Season { get; set; }
 }
