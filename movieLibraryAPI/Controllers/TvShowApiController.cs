@@ -27,7 +27,7 @@ public class TvShowApiController : ControllerBase
     {
         if (_tvShowService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<List<TvShowDTO>>
             {
                 StatusCode = 500,
                 Message = "TV show service is not available",
@@ -51,11 +51,11 @@ public class TvShowApiController : ControllerBase
     /// <param name="newTvShow">The TV show object containing the details of the new TV show.</param>
     /// <returns>The created TV show object.</returns>
     [HttpPost("AddTvShow")]
-    public async Task<IActionResult> AddTvShow(TvShowDTO newTvShow)
+    public async Task<IActionResult> AddTvShow(CreateTvShowDTO newTvShow)
     {
         if (_tvShowService == null)
         {
-            return StatusCode(500, new ApiResponse<TvShowDTO>
+            return StatusCode(500, new ApiResponse<CreateTvShowDTO>
             {
                 StatusCode = 500,
                 Message = "TV show service is not available",
@@ -123,7 +123,7 @@ public class TvShowApiController : ControllerBase
     /// <param name="updatedTvShow">The TV show object containing the updated details.</param>
     /// <returns>The updated TV show object if found; otherwise, null.</returns>
     [HttpPut("UpdateTvShow")]
-    public async Task<IActionResult> UpdateTvShow(string title, TvShowDTO updatedTvShow)
+    public async Task<IActionResult> UpdateTvShow(string title, UpdateTvShowDTO updatedTvShow)
     {
         if (_tvShowService == null)
         {

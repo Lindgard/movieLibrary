@@ -51,8 +51,8 @@ public static class TvShowMappings
     {
         return new TvShowSeasonDTO
         {
-            SeasonName = season.SeasonNumber.ToString(),
-            Season = season.Episodes.ToDictionary(
+            SeasonNumber = season.SeasonNumber,
+            Episodes = season.Episodes.ToDictionary(
                 x => x.Key,
                 x => x.Value.Select(e => e.ToDto()).ToList())
         };
@@ -62,8 +62,8 @@ public static class TvShowMappings
     {
         return new Season
         {
-            SeasonNumber = int.Parse(dto.SeasonName),
-            Episodes = dto.Season.ToDictionary(
+            SeasonNumber = dto.SeasonNumber,
+            Episodes = dto.Episodes.ToDictionary(
                 x => x.Key,
                 x => x.Value.Select(e => e.ToDomain()).ToList())
         };
