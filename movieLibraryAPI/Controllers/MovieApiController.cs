@@ -11,13 +11,10 @@ public class MovieApiController : ControllerBase
 {
     private readonly MovieService? _movieService;
 
-
     public MovieApiController(MovieService? movieService)
     {
         _movieService = movieService;
     }
-
-
 
     /// <summary>
     /// Retrieves a list of movies. This is a placeholder implementation that returns a static list of movie titles. 
@@ -81,8 +78,6 @@ public class MovieApiController : ControllerBase
         return CreatedAtAction(nameof(GetMovies), new { title = createdMovie.Title }, response);
     }
 
-
-
     /// <summary>
     /// Removes a movie from the collection. This is a placeholder implementation that simulates removing a movie. 
     /// In a real application, this would likely accept an identifier (such as a movie ID or title) in the request 
@@ -124,8 +119,6 @@ public class MovieApiController : ControllerBase
             return NotFound(response);
         }
     }
-
-
 
     /// <summary>
     /// Updates the details of an existing movie. This is a placeholder implementation that simulates updating a movie. 
@@ -169,6 +162,4 @@ public class MovieApiController : ControllerBase
             return NotFound(response);
         }
     }
-
-
 }
