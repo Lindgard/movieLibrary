@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using movieLibrary.Models.API;
-using movieLibrary.Models.Movies;
+using movieLibrary.Models.Response;
+using movieLibrary.Models.Domain;
 using movieLibrary.Services;
 
 namespace movieLibrary.Controllers;

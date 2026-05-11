@@ -1,5 +1,4 @@
-using movieLibrary.Models.TvShows;
-using movieLibrary.Models;
+using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Services;
 

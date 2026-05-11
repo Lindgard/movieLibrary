@@ -1,8 +1,8 @@
 using movieLibrary.Services;
 using Microsoft.AspNetCore.Mvc;
-using movieLibrary.Models.API;
+using movieLibrary.Models.Response;
 using movieLibrary.Models.DTOs;
-using movieLibrary.Models.TvShows;
+using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Controllers;
 

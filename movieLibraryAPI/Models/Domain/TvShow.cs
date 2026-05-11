@@ -1,6 +1,6 @@
 using movieLibrary.Models.Interfaces;
-using movieLibrary.Models;
-namespace movieLibrary.Models.TvShows;
+
+namespace movieLibrary.Models.Domain;
 
 public class TvShow : ITvShow
 {
@@ -10,4 +10,5 @@ public class TvShow : ITvShow
     public string Description { get; set; } = string.Empty;
     public int TotalEpisodes { get; set; }
     public Genres TvShowGenre { get; set; }
+    Genres ITvShow.TvShowGenre { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }

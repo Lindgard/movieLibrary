@@ -1,4 +1,4 @@
-namespace movieLibrary.Models.Movies;
+namespace movieLibrary.Models.Domain;
 
 public class Movie
 {

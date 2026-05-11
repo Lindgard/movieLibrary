@@ -1,4 +1,4 @@
-using movieLibrary.Models.Movies;
+using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Services;
 
