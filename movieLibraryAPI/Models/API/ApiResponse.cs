@@ -1,4 +1,4 @@
-namespace movieLibrary.Models;
+namespace movieLibrary.Models.API;
 
 public class ApiResponse
 {

@@ -1,4 +1,4 @@
-namespace movieLibrary.Models.TvShows;
+namespace movieLibrary.Models.DTOs;
 
 public class TvShowEpisodeDTO
 {

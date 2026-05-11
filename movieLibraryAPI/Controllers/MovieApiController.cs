@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using movieLibrary.Models;
+using movieLibrary.Models.API;
 using movieLibrary.Models.Movies;
 using movieLibrary.Services;
 
@@ -12,7 +12,7 @@ public class MovieApiController : ControllerBase
     private readonly MovieService? _movieService;
 
 
-    public MovieApiController(MovieService? movieService, TvShowService? tvShowService)
+    public MovieApiController(MovieService? movieService)
     {
         _movieService = movieService;
     }

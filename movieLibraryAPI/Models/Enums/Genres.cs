@@ -1,4 +1,4 @@
-namespace movieLibrary.Models;
+namespace movieLibrary.Models.Enums;
 
 /// <summary>
 /// Enumeration representing different genres of movies and TV shows. 

@@ -1,6 +1,7 @@
 using movieLibrary.Services;
 using Microsoft.AspNetCore.Mvc;
-using movieLibrary.Models;
+using movieLibrary.Models.API;
+using movieLibrary.Models.DTOs;
 using movieLibrary.Models.TvShows;
 
 namespace movieLibrary.Controllers;
@@ -11,7 +12,7 @@ public class TvShowApiController : ControllerBase
 {
     private readonly TvShowService? _tvShowService;
 
-    public TvShowApiController(MovieService? movieService, TvShowService? tvShowService)
+    public TvShowApiController(TvShowService? tvShowService)
     {
         _tvShowService = tvShowService;
     }
