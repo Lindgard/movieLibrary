@@ -62,13 +62,15 @@ public class TvShowApiController : ControllerBase
                 Data = null
             });
         }
-        var createdTvShow = await _tvShowService.AddTvShowAsync(newTvShow);
-        return CreatedAtAction(nameof(GetShows), new { title = createdTvShow.Title }, new ApiResponse
+        var domainModel = newTvShow.ToDomain();
+        var createdTvShow = await _tvShowService.AddTvShowAsync(domainModel);
+        var response = new ApiResponse
         {
             StatusCode = 201,
             Message = "TV show added successfully",
             Data = createdTvShow
-        });
+        };
+        return CreatedAtAction(nameof(GetShows), new { title = createdTvShow.Title }, response);
     }
 
     /// <summary>
