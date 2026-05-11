@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using movieLibrary.Models.Response;
-using movieLibrary.Models.Domain;
 using movieLibrary.Services;
 using movieLibrary.Models.DTOs;
 using movieLibrary.Mappings;
@@ -28,7 +27,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse<List<Movie>>
+            return StatusCode(500, new ApiResponse<List<MovieDTO>>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -37,11 +36,12 @@ public class MovieApiController : ControllerBase
         }
 
         var movies = await _movieService.GetAllMoviesAsync();
-        var response = new ApiResponse<List<Movie>>
+        var movieDTOs = movies.Select(m => m.ToDto()).ToList();
+        var response = new ApiResponse<List<MovieDTO>>
         {
             StatusCode = 200,
             Message = "Movies retrieved successfully",
-            Data = movies
+            Data = movieDTOs
         };
         return Ok(response);
     }
@@ -53,7 +53,7 @@ public class MovieApiController : ControllerBase
     /// <param name="newMovie">The movie object containing the details of the new movie.</param>
     /// <returns>The created movie object.</returns>
     [HttpPost("AddMovie")]
-    public async Task<IActionResult> AddMovie(Movie newMovie)
+    public async Task<IActionResult> AddMovie(CreateMovieDTO newMovie)
     {
         if (_movieService == null)
         {
@@ -64,18 +64,13 @@ public class MovieApiController : ControllerBase
                 Data = null
             });
         }
-        var createdMovie = await _movieService.AddMovieAsync(new Movie
-        {
-            Title = newMovie.Title,
-            ReleaseYear = newMovie.ReleaseYear,
-            Description = newMovie.Description,
-            MovieGenre = newMovie.MovieGenre
-        });
-        var responseDTO = new ApiResponse<Movie>
+        var domainModel = newMovie.ToDomain();
+        var createdMovie = await _movieService.AddMovieAsync(domainModel);
+        var responseDTO = new ApiResponse<MovieDTO>
         {
             StatusCode = 201,
             Message = "Movie added successfully",
-            Data = createdMovie
+            Data = createdMovie.ToDto()
         };
         return CreatedAtAction(nameof(GetMovies), new { title = createdMovie.Title }, responseDTO);
     }
@@ -106,7 +101,7 @@ public class MovieApiController : ControllerBase
             {
                 StatusCode = 200,
                 Message = "Movie removed successfully",
-                Data = removedMovie
+                Data = removedMovie.ToDto()
             };
             return Ok(response);
         }
@@ -131,7 +126,7 @@ public class MovieApiController : ControllerBase
     /// <param name="updatedMovie">The movie object containing the updated details.</param>
     /// <returns>The updated movie object if found; otherwise, null.</returns>
     [HttpPut("UpdateMovie")]
-    public async Task<IActionResult> UpdateMovieAsync(string title, Movie updatedMovie)
+    public async Task<IActionResult> UpdateMovieAsync(string title, UpdateMovieDTO updatedMovie)
     {
         if (_movieService == null)
         {
@@ -142,7 +137,7 @@ public class MovieApiController : ControllerBase
                 Data = null
             });
         }
-        var updatedMovieResult = await _movieService.UpdateMovieAsync(title, updatedMovie);
+        var updatedMovieResult = await _movieService.UpdateMovieAsync(title, updatedMovie.ToDomain());
         if (updatedMovieResult != null)
         {
             var response = new ApiResponse<UpdateMovieDTO>
