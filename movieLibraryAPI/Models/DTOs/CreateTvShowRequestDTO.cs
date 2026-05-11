@@ -8,5 +8,6 @@ public class CreateTvShowRequestDTO
     public int ReleaseYear { get; set; }
     public string Description { get; set; } = string.Empty;
     public Genres TvShowGenre { get; set; }
-    public string Director { get; set; } = string.Empty;
+    public string Creator { get; set; } = string.Empty;
+    public int Season { get; set; }
 }

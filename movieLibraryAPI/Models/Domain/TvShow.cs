@@ -9,6 +9,7 @@ public class TvShow : ITvShow
     public Season? Season { get; set; }
     public string Description { get; set; } = string.Empty;
     public int TotalEpisodes { get; set; }
+    public string Creator { get; set; } = string.Empty;
     public Genres TvShowGenre { get; set; }
     Genres ITvShow.TvShowGenre { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 }
