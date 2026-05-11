@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using movieLibrary.Models.Response;
 using movieLibrary.Models.Domain;
 using movieLibrary.Services;
+using movieLibrary.Models.DTOs;
+using movieLibrary.Mappings;
 
 namespace movieLibrary.Controllers;
 
@@ -26,7 +28,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<List<Movie>>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -35,7 +37,7 @@ public class MovieApiController : ControllerBase
         }
 
         var movies = await _movieService.GetAllMoviesAsync();
-        var response = new ApiResponse
+        var response = new ApiResponse<List<Movie>>
         {
             StatusCode = 200,
             Message = "Movies retrieved successfully",
@@ -55,7 +57,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<CreateMovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -69,7 +71,7 @@ public class MovieApiController : ControllerBase
             Description = newMovie.Description,
             MovieGenre = newMovie.MovieGenre
         });
-        var responseDTO = new ApiResponse
+        var responseDTO = new ApiResponse<Movie>
         {
             StatusCode = 201,
             Message = "Movie added successfully",
@@ -90,7 +92,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -100,7 +102,7 @@ public class MovieApiController : ControllerBase
         var removedMovie = await _movieService.RemoveMovieAsync(title);
         if (removedMovie != null)
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie removed successfully",
@@ -110,7 +112,7 @@ public class MovieApiController : ControllerBase
         }
         else
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 404,
                 Message = "Movie not found",
@@ -133,7 +135,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse
+            return StatusCode(500, new ApiResponse<UpdateMovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -143,17 +145,17 @@ public class MovieApiController : ControllerBase
         var updatedMovieResult = await _movieService.UpdateMovieAsync(title, updatedMovie);
         if (updatedMovieResult != null)
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<UpdateMovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie updated successfully",
-                Data = updatedMovieResult
+                Data = updatedMovieResult.ToDto()
             };
             return Ok(response);
         }
         else
         {
-            var response = new ApiResponse
+            var response = new ApiResponse<UpdateMovieDTO>
             {
                 StatusCode = 404,
                 Message = "Movie not found",
