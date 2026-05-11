@@ -15,6 +15,41 @@ public class TvShowService
     }
 
     /// <summary>
+    /// Retrieves all TV shows from the list with optional filtering by 
+    /// genre, release year, and title. 
+    /// Supports pagination through page number and page size parameters.
+    /// </summary>
+    /// <param name="genre">Optional genre to filter TV shows.</param>
+    /// <param name="releaseYear">Optional release year to filter TV shows.</param>
+    /// <param name="title">Optional title to filter TV shows.</param>
+    /// <param name="pageNumber">Page number for pagination.</param>
+    /// <param name="pageSize">Number of items per page for pagination.</param>
+    /// <returns>List of TV shows matching the specified criteria.</returns>
+    public Task<List<TvShow>> GetAllTvShowsAsync(string? genre = null, int? releaseYear = null, string? title = null, int pageNumber = 1, int pageSize = 10)
+    {
+        var query = _tvList.AsQueryable();
+
+        if (!string.IsNullOrEmpty(genre) && Enum.TryParse<Genres>(genre, true, out var parsedGenre))
+        {
+            query = query.Where(s => s.TvShowGenre == parsedGenre);
+        }
+        if (releaseYear.HasValue)
+        {
+            query = query.Where(s => s.ReleaseYear == releaseYear.Value);
+        }
+        if (!string.IsNullOrEmpty(title))
+        {
+            query = query.Where(s => s.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        }
+
+        var paginatedTvShows = query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+        return Task.FromResult(paginatedTvShows);
+    }
+
+    /// <summary>
     /// Adds a new TV show to the list and returns the added TV show.
     /// </summary>
     /// <param name="tvShow">The TV show to add.</param>
@@ -72,38 +107,5 @@ public class TvShowService
         return Task.FromResult(showToUpdate);
     }
 
-    /// <summary>
-    /// Retrieves all TV shows from the list with optional filtering by 
-    /// genre, release year, and title. 
-    /// Supports pagination through page number and page size parameters.
-    /// </summary>
-    /// <param name="genre">Optional genre to filter TV shows.</param>
-    /// <param name="releaseYear">Optional release year to filter TV shows.</param>
-    /// <param name="title">Optional title to filter TV shows.</param>
-    /// <param name="pageNumber">Page number for pagination.</param>
-    /// <param name="pageSize">Number of items per page for pagination.</param>
-    /// <returns>List of TV shows matching the specified criteria.</returns>
-    public Task<List<TvShow>> GetAllTvShowsAsync(string? genre = null, int? releaseYear = null, string? title = null, int pageNumber = 1, int pageSize = 10)
-    {
-        var query = _tvList.AsQueryable();
 
-        if (!string.IsNullOrEmpty(genre) && Enum.TryParse<Genres>(genre, true, out var parsedGenre))
-        {
-            query = query.Where(s => s.TvShowGenre == parsedGenre);
-        }
-        if (releaseYear.HasValue)
-        {
-            query = query.Where(s => s.ReleaseYear == releaseYear.Value);
-        }
-        if (!string.IsNullOrEmpty(title))
-        {
-            query = query.Where(s => s.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-        }
-
-        var paginatedTvShows = query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-        return Task.FromResult(paginatedTvShows);
-    }
 }
