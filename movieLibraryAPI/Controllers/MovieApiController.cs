@@ -69,13 +69,13 @@ public class MovieApiController : ControllerBase
             Description = newMovie.Description,
             MovieGenre = newMovie.MovieGenre
         });
-        var response = new ApiResponse
+        var responseDTO = new ApiResponse
         {
             StatusCode = 201,
             Message = "Movie added successfully",
             Data = createdMovie
         };
-        return CreatedAtAction(nameof(GetMovies), new { title = createdMovie.Title }, response);
+        return CreatedAtAction(nameof(GetMovies), new { title = createdMovie.Title }, responseDTO);
     }
 
     /// <summary>

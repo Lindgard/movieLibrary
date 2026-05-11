@@ -2,7 +2,7 @@ using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Models.DTOs;
 
-public class CreateMovieRequestDTO
+public class MovieDTO
 {
     public string Title { get; set; } = string.Empty;
     public int ReleaseYear { get; set; }
