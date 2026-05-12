@@ -3,7 +3,6 @@ using movieLibrary.Models.Response;
 using movieLibrary.Services;
 using movieLibrary.Models.DTOs;
 using movieLibrary.Mappings;
-using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Controllers;
 
@@ -88,7 +87,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse<MovieDTO>
+            return StatusCode(500, new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -98,17 +97,17 @@ public class MovieApiController : ControllerBase
         var removedMovie = await _movieService.RemoveMovieAsync(title);
         if (removedMovie != null)
         {
-            var response = new ApiResponse<MovieDTO>
+            var response = new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie removed successfully",
-                Data = removedMovie.ToDto()
+                Data = removedMovie.ToRemoveMovieDto()
             };
             return Ok(response);
         }
         else
         {
-            var response = new ApiResponse<MovieDTO>
+            var response = new ApiResponse<RemoveMovieDTO>
             {
                 StatusCode = 404,
                 Message = "Movie not found",
@@ -131,7 +130,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse<MovieDTO>
+            return StatusCode(500, new ApiResponse<UpdateMovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -141,11 +140,11 @@ public class MovieApiController : ControllerBase
         var updatedMovieResult = await _movieService.UpdateMovieAsync(title, updatedMovie.ToDomain());
         if (updatedMovieResult != null)
         {
-            var response = new ApiResponse<MovieDTO>
+            var response = new ApiResponse<UpdateMovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie updated successfully",
-                Data = updatedMovieResult.ToDto()
+                Data = updatedMovieResult.ToUpdateMovieDto()
             };
             return Ok(response);
         }

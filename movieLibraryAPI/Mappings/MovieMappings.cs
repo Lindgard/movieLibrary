@@ -17,6 +17,18 @@ public static class MovieMappings
         };
     }
 
+    public static UpdateMovieDTO ToUpdateMovieDto(this Movie movie)
+    {
+        return new UpdateMovieDTO
+        {
+            Title = movie.Title,
+            ReleaseYear = movie.ReleaseYear,
+            Description = movie.Description,
+            Director = movie.Director,
+            MovieGenre = movie.MovieGenre
+        };
+    }
+
     public static RemoveMovieDTO ToRemoveMovieDto(this Movie movie)
     {
         return new RemoveMovieDTO
