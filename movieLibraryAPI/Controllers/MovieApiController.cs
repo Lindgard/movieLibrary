@@ -3,6 +3,7 @@ using movieLibrary.Models.Response;
 using movieLibrary.Services;
 using movieLibrary.Models.DTOs;
 using movieLibrary.Mappings;
+using movieLibrary.Models.Domain;
 
 namespace movieLibrary.Controllers;
 
@@ -87,7 +88,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse<RemoveMovieDTO>
+            return StatusCode(500, new ApiResponse<MovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -97,7 +98,7 @@ public class MovieApiController : ControllerBase
         var removedMovie = await _movieService.RemoveMovieAsync(title);
         if (removedMovie != null)
         {
-            var response = new ApiResponse<RemoveMovieDTO>
+            var response = new ApiResponse<MovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie removed successfully",
@@ -107,7 +108,7 @@ public class MovieApiController : ControllerBase
         }
         else
         {
-            var response = new ApiResponse<RemoveMovieDTO>
+            var response = new ApiResponse<MovieDTO>
             {
                 StatusCode = 404,
                 Message = "Movie not found",
@@ -130,7 +131,7 @@ public class MovieApiController : ControllerBase
     {
         if (_movieService == null)
         {
-            return StatusCode(500, new ApiResponse<UpdateMovieDTO>
+            return StatusCode(500, new ApiResponse<MovieDTO>
             {
                 StatusCode = 500,
                 Message = "Movie service is not available",
@@ -140,7 +141,7 @@ public class MovieApiController : ControllerBase
         var updatedMovieResult = await _movieService.UpdateMovieAsync(title, updatedMovie.ToDomain());
         if (updatedMovieResult != null)
         {
-            var response = new ApiResponse<UpdateMovieDTO>
+            var response = new ApiResponse<MovieDTO>
             {
                 StatusCode = 200,
                 Message = "Movie updated successfully",

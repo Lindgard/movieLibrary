@@ -17,6 +17,13 @@ public static class MovieMappings
         };
     }
 
+    public static RemoveMovieDTO ToRemoveMovieDto(this Movie movie)
+    {
+        return new RemoveMovieDTO
+        {
+            Title = movie.Title
+        };
+    }
     public static Movie ToDomain(this CreateMovieDTO dto)
     {
         return new Movie
