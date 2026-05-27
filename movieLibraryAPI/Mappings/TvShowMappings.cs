@@ -15,7 +15,8 @@ public static class TvShowMappings
             TvShowGenre = tvShow.TvShowGenre,
             Creator = tvShow.Creator,
             TotalEpisodes = tvShow.TotalEpisodes,
-            Season = tvShow.Season?.ToDto()
+            Season = tvShow.Season?.ToDto(),
+            Id = tvShow.Id
         };
     }
 
@@ -29,7 +30,8 @@ public static class TvShowMappings
             TvShowGenre = dto.TvShowGenre,
             Creator = dto.Creator,
             TotalEpisodes = dto.TotalEpisodes,
-            Season = dto.Season?.ToDomain()
+            Season = dto.Season?.ToDomain(),
+            Id = dto.Id
         };
     }
 
@@ -43,7 +45,8 @@ public static class TvShowMappings
             TvShowGenre = dto.TvShowGenre,
             Creator = dto.Creator,
             TotalEpisodes = dto.TotalEpisodes,
-            Season = dto.Season?.ToDomain()
+            Season = dto.Season?.ToDomain(),
+            Id = dto.Id
         };
     }
 

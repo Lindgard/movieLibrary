@@ -11,4 +11,5 @@ public class TvShowDTO
     public string Creator { get; set; } = string.Empty;
     public int TotalEpisodes { get; set; }
     public TvShowSeasonDTO? Season { get; set; }
+    public Guid Id { get; set; }
 }

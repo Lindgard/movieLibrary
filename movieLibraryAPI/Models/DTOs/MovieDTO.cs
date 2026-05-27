@@ -9,4 +9,5 @@ public class MovieDTO
     public string Description { get; set; } = string.Empty;
     public Genres MovieGenre { get; set; }
     public string Director { get; set; } = string.Empty;
+    public Guid Id { get; set; }
 }

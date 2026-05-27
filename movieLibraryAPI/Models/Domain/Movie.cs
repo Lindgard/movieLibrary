@@ -7,6 +7,7 @@ public class Movie
     public string Description { get; set; } = string.Empty;
     public string Director { get; set; } = string.Empty;
     public Genres MovieGenre { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     /// <summary>
     /// Initializes a new empty instance of the Movie class with default values.
@@ -24,12 +25,14 @@ public class Movie
     /// <param name="description">A brief description of the movie.</param>
     /// <param name="director">The director of the movie.</param>
     /// <param name="genres">The genre of the movie.</param>
-    public Movie(string title, int releaseYear, string description, string director, Genres genres)
+    /// <param name="id">The unique identifier of the movie.</param>
+    public Movie(string title, int releaseYear, string description, string director, Genres genres, Guid id)
     {
         Title = title;
         ReleaseYear = releaseYear;
         Description = description;
         Director = director;
         MovieGenre = genres;
+        Id = id;
     }
 }

@@ -11,4 +11,5 @@ public class TvShow : ITvShow
     public int TotalEpisodes { get; set; }
     public string Creator { get; set; } = string.Empty;
     public Genres TvShowGenre { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 }
