@@ -1,6 +1,6 @@
-using movieLibrary.Models.Domain;
+using movieLibraryAPI.Models.Domain;
 
-namespace movieLibrary.Services;
+namespace movieLibraryAPI.Services;
 
 public class MovieService
 {

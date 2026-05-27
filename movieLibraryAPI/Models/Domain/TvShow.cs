@@ -1,6 +1,6 @@
-using movieLibrary.Models.Interfaces;
+using movieLibraryAPI.Models.Interfaces;
 
-namespace movieLibrary.Models.Domain;
+namespace movieLibraryAPI.Models.Domain;
 
 public class TvShow : ITvShow
 {

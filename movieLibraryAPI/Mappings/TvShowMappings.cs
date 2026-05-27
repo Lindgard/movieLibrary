@@ -1,7 +1,7 @@
-using movieLibrary.Models.Domain;
-using movieLibrary.Models.DTOs;
+using movieLibraryAPI.Models.Domain;
+using movieLibraryAPI.Models.DTOs;
 
-namespace movieLibrary.Mappings;
+namespace movieLibraryAPI.Mappings;
 
 public static class TvShowMappings
 {

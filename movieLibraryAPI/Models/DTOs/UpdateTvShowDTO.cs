@@ -1,5 +1,5 @@
-using movieLibrary.Models.Domain;
-namespace movieLibrary.Models.DTOs;
+using movieLibraryAPI.Models.Domain;
+namespace movieLibraryAPI.Models.DTOs;
 
 public class UpdateTvShowDTO
 {

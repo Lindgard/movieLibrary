@@ -1,10 +1,10 @@
-using movieLibrary.Services;
+using movieLibraryAPI.Services;
 using Microsoft.AspNetCore.Mvc;
-using movieLibrary.Models.Response;
-using movieLibrary.Models.DTOs;
-using movieLibrary.Mappings;
+using movieLibraryAPI.Models.Response;
+using movieLibraryAPI.Models.DTOs;
+using movieLibraryAPI.Mappings;
 
-namespace movieLibrary.Controllers;
+namespace movieLibraryAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,6 +1,6 @@
-using movieLibrary.Models.Domain;
+using movieLibraryAPI.Models.Domain;
 
-namespace movieLibrary.Models;
+namespace movieLibraryAPI.Models;
 
 /// <summary>
 /// This class represents a combined list of movies and TV shows. It contains properties for both movies and TV shows,

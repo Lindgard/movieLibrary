@@ -1,6 +1,6 @@
-using movieLibrary.Models.Domain;
+using movieLibraryAPI.Models.Domain;
 
-namespace movieLibrary.Models.DTOs;
+namespace movieLibraryAPI.Models.DTOs;
 
 public class MovieDTO
 {

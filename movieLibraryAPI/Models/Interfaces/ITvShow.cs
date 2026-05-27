@@ -1,4 +1,4 @@
-using movieLibrary.Models.Domain;
+using movieLibraryAPI.Models.Domain;
 namespace movieLibrary.Models.Interfaces;
 
 public interface ITvShow
