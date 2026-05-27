@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
-using Microsoft.Extensions.Options;
-using movieLibrary.Services;
+using movieLibraryAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

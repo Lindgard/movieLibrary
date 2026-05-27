@@ -1,5 +1,5 @@
 using movieLibraryAPI.Models.Domain;
-namespace movieLibrary.Models.Interfaces;
+namespace movieLibraryAPI.Models.Interfaces;
 
 public interface ITvShow
 {

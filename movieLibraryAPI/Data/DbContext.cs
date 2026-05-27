@@ -11,9 +11,17 @@ public class MovieLibraryDbContext : DbContext
     public DbSet<Season> Seasons => Set<Season>();
     public DbSet<Episode> Episodes => Set<Episode>();
     public DbSet<MovieAndTvShowList> MovieAndTvShowLists => Set<MovieAndTvShowList>();
+    public string DbPath { get; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseNpgsql($"Host=localhost;Database=movielibrary;Username=postgres;Password=postgres");
+    }
 
     public MovieLibraryDbContext(DbContextOptions<MovieLibraryDbContext> options) : base(options)
     {
-
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        DbPath = System.IO.Path.Join(path, "movielibrary.db");
     }
 }
