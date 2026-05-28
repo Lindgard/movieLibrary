@@ -24,4 +24,27 @@ public class MovieLibraryDbContext : DbContext
         var path = Environment.GetFolderPath(folder);
         DbPath = System.IO.Path.Join(path, "movielibrary.db");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<MovieAndTvShowList>()
+            .HasMany(m => m.Movies)
+            .WithMany(t => t.MovieAndTvShowLists)
+            .UsingEntity(j => j.ToTable("MovieListMovies"));
+
+        modelBuilder.Entity<MovieAndTvShowList>()
+            .HasMany(t => t.TvShows)
+            .WithMany(l => l.MovieAndTvShowLists)
+            .UsingEntity(j => j.ToTable("TvShowListTvShows"));
+
+        modelBuilder.Entity<Season>()
+            .HasMany(s => s.Episodes)
+            .WithOne(e => e.Season)
+            .HasForeignKey(e => e.SeasonId);
+
+        modelBuilder.Entity<TvShow>()
+            .HasMany(t => t.Seasons)
+            .WithOne(s => s.TvShow)
+            .HasForeignKey(s => s.TvShowId);
+    }
 }
