@@ -9,6 +9,7 @@ namespace movieLibraryAPI.Models;
 /// </summary>
 public class MovieAndTvShowList
 {
-    public TvShow? Shows { get; set; }
-    public Movie? Movies { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public ICollection<TvShow> Shows { get; set; } = new List<TvShow>();
+    public ICollection<Movie> Movies { get; set; } = new List<Movie>();
 }

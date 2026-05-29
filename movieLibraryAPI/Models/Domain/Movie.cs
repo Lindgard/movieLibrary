@@ -9,6 +9,8 @@ public class Movie
     public Genres MovieGenre { get; set; }
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    public ICollection<MovieAndTvShowList> MovieAndTvShowLists { get; set; } = new List<MovieAndTvShowList>();
+
     /// <summary>
     /// Initializes a new empty instance of the Movie class with default values.
     /// </summary>

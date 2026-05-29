@@ -15,14 +15,14 @@ public static class TvShowMappings
             TvShowGenre = tvShow.TvShowGenre,
             Creator = tvShow.Creator,
             TotalEpisodes = tvShow.TotalEpisodes,
-            Season = tvShow.Season?.ToDto(),
+            Seasons = tvShow.Seasons?.Select(s => s.ToDto()).ToList(),
             Id = tvShow.Id
         };
     }
 
     public static TvShow ToDomain(this CreateTvShowDTO dto)
     {
-        return new TvShow
+        var tvShow = new TvShow
         {
             Title = dto.Title,
             ReleaseYear = dto.ReleaseYear,
@@ -30,14 +30,23 @@ public static class TvShowMappings
             TvShowGenre = dto.TvShowGenre,
             Creator = dto.Creator,
             TotalEpisodes = dto.TotalEpisodes,
-            Season = dto.Season?.ToDomain(),
             Id = dto.Id
         };
+
+        if (dto.Seasons != null)
+        {
+            tvShow.Seasons = dto.Seasons.Select(s => s.ToDomain()).ToList();
+            foreach (var season in tvShow.Seasons)
+            {
+                season.TvShowId = tvShow.Id;
+            }
+        }
+        return tvShow;
     }
 
     public static TvShow ToDomain(this UpdateTvShowDTO dto)
     {
-        return new TvShow
+        var tvShow = new TvShow
         {
             Title = dto.Title,
             ReleaseYear = dto.ReleaseYear,
@@ -45,9 +54,18 @@ public static class TvShowMappings
             TvShowGenre = dto.TvShowGenre,
             Creator = dto.Creator,
             TotalEpisodes = dto.TotalEpisodes,
-            Season = dto.Season?.ToDomain(),
             Id = dto.Id
         };
+
+        if (dto.Seasons != null)
+        {
+            tvShow.Seasons = dto.Seasons.Select(s => s.ToDomain()).ToList();
+            foreach (var season in tvShow.Seasons)
+            {
+                season.TvShowId = tvShow.Id;
+            }
+        }
+        return tvShow;
     }
 
     public static TvShowSeasonDTO ToDto(this Season season)
@@ -55,9 +73,12 @@ public static class TvShowMappings
         return new TvShowSeasonDTO
         {
             SeasonNumber = season.SeasonNumber,
-            Episodes = season.Episodes.ToDictionary(
-                x => x.Key,
-                x => x.Value.Select(e => e.ToDto()).ToList())
+            Episodes = season.Episodes
+                .GroupBy(e => e.SeasonNumber)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(e => e.ToDto()).ToList()
+                )
         };
     }
 
@@ -66,9 +87,9 @@ public static class TvShowMappings
         return new Season
         {
             SeasonNumber = dto.SeasonNumber,
-            Episodes = dto.Episodes.ToDictionary(
-                x => x.Key,
-                x => x.Value.Select(e => e.ToDomain()).ToList())
+            Episodes = (dto.Episodes ?? new Dictionary<int, List<TvShowEpisodeDTO>>())
+                .SelectMany(x => x.Value.Select(e => e.ToDomain()))
+                .ToList()
         };
     }
 
