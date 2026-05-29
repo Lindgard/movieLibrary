@@ -60,7 +60,7 @@ public class TvShowService
             Title = tvShow.Title,
             ReleaseYear = tvShow.ReleaseYear,
             Description = tvShow.Description,
-            Season = tvShow.Season,
+            Seasons = tvShow.Seasons,
             TotalEpisodes = tvShow.TotalEpisodes,
             TvShowGenre = tvShow.TvShowGenre
         };
@@ -99,12 +99,10 @@ public class TvShowService
             showToUpdate.Title = updatedShow.Title;
             showToUpdate.ReleaseYear = updatedShow.ReleaseYear;
             showToUpdate.Description = updatedShow.Description;
-            showToUpdate.Season = updatedShow.Season;
+            showToUpdate.Seasons = updatedShow.Seasons;
             showToUpdate.TotalEpisodes = updatedShow.TotalEpisodes;
             showToUpdate.TvShowGenre = updatedShow.TvShowGenre;
         }
         return Task.FromResult(showToUpdate);
     }
-
-
 }
