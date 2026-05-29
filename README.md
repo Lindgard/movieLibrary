@@ -1,29 +1,52 @@
-# Movie Library
+# Movie Library API
 
-A .NET Web API for managing a collection of movies and TV shows.
+A .NET Web API for managing movies, TV shows, seasons, episodes, and mixed media lists.
 
-## Scoping
+## Current Status
 
-- CRUD operations for all endpoints
-- List of movies
-- List of TV shows
-- Wishlist
+This project now uses:
 
-### Stretch Goal
+- ASP.NET Core Web API (`net10.0`)
+- Entity Framework Core
+- PostgreSQL (`Npgsql`)
+- EF Core Migrations
+- Swagger / OpenAPI
+- Layered structure with controllers, services, mappings, DTOs, and domain models
 
-Implement a React frontend that connects to the backend API.
+---
 
-## Structure
+## Features
 
-The project currently follows a layered API structure:
+- CRUD operations for Movies
+- CRUD operations for TV Shows
+- TV Shows include Seasons and Episodes
+- Combined list model (`MovieAndTvShowList`) with many-to-many relations to:
+  - `Movie`
+  - `TvShow`
 
-- .NET Web API with MVC
-- Controller layer
-- Model layer
-- Service layer
-- Interfaces where needed
+---
 
-### Main Project Areas
+## Project Structure
+
+```mermaid
+  flowchart TD
+    A[Clients<br/>Swagger / HTTP / Frontend] --> B[Controllers]
+    B --> C[Services]
+    C --> D[Mappings]
+    D --> E[DTOs]
+    C --> F[Domain Models]
+    C --> G[MovieLibraryDbContext]
+    G --> H[(PostgreSQL)]
+    
+    subgraph API["movieLibraryAPI"]
+        B[Controllers<br/>MovieApiController<br/>TvShowApiController]
+        C[Services<br/>MovieService<br/>TvShowService]
+        D[Mappings<br/>MovieMappings<br/>TvShowMappings]
+        E[Models/DTOs<br/>Create/Update/Read DTOs]
+        F[Models/Domain<br/>Movie, TvShow, Season, Episode, Genres, MovieAndTvShowList]
+        G[Data<br/>DbContext + Migrations]
+    end
+```
 
 - `movieLibraryAPI/Controllers`
   - `MovieApiController.cs`
@@ -31,60 +54,115 @@ The project currently follows a layered API structure:
 - `movieLibraryAPI/Services`
   - `MovieService.cs`
   - `TvShowService.cs`
+- `movieLibraryAPI/Mappings`
+  - `MovieMappings.cs`
+  - `TvShowMappings.cs`
 - `movieLibraryAPI/Models`
-  - API response models
-  - genre enum
-  - movie and TV show models
-  - list models and interfaces
+  - `Domain/` (`Movie`, `TvShow`, `Season`, `Episode`, `Genres`)
+  - `DTOs/` (Create/Update/Read DTOs)
+  - `MovieAndTvShowList.cs`
+  - `Response/ApiResponse.cs`
+- `movieLibraryAPI/Data`
+  - `DbContext.cs`
+  - `Migrations/` (EF Core migration history)
 
-## TODO
+---
 
-- [x] Start folder and file structure
-- [x] Add xUnit for future testing
-- [x] Create model for lists (generic list)
-- [x] Create models for Movies and TvShows
-- [x] Create Enum for Genres
-- [x] Start service file for tv-shows
-- [x] Add Swagger
+## Database
 
-## Flowchart
+The API is configured for **PostgreSQL** in `Program.cs` using:
 
-```mermaid
-flowchart TD
-    A[Client / Consumer] --> B[MovieApiController]
-    A --> C[TvShowApiController]
+- `AddDbContext<MovieLibraryDbContext>(options => options.UseNpgsql(...))`
+- Connection string key: `ConnectionStrings:DefaultConnection`
 
-    B --> D[MovieService]
-    C --> E[TvShowService]
+Example connection string in `appsettings.json`:
 
-    D --> F[Movie Models]
-    E --> G[TvShow Models]
-
-    F --> H[ApiResponse / Shared Models]
-    G --> H
-
-    H --> I[HTTP Response returned to client]
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=movielibrary;Username=postgres;Password=postgres"
+  }
+}
 ```
 
-## Request Flow
+---
 
-1. A client sends a request to the API.
-2. The request is handled by either:
-   - `MovieApiController`
-   - `TvShowApiController`
-3. The controller delegates logic to the matching service:
-   - `MovieService`
-   - `TvShowService`
-4. The service works with models and shared response objects.
-5. The API returns a structured response to the client.
+## Local Setup
 
-## Tech Stack
+### 1) Prerequisites
 
-- C#
-- .NET Web API
-- xUnit for testing
-- Swagger for API documentation
+- .NET SDK 10
+- PostgreSQL server running on localhost:5432
+- `postgresql-client` (`psql`) installed
 
-## Notes
+### 2) Install local EF tool (recommended)
 
-This project is focused on building a clean backend structure for handling movie and TV show data. It is designed to be extendable, with a possible frontend integration planned as a stretch goal.
+From repo root:
+
+```bash
+dotnet new tool-manifest
+dotnet tool install dotnet-ef
+dotnet tool restore
+```
+
+### 3) Restore and build
+
+```bash
+cd movieLibraryAPI
+dotnet restore
+dotnet build
+```
+
+### 4) Apply migrations
+
+From repo root:
+
+```bash
+dotnet tool run dotnet-ef database update \
+  --project movieLibraryAPI/movieLibraryAPI.csproj \
+  --startup-project movieLibraryAPI/movieLibraryAPI.csproj \
+  --context MovieLibraryDbContext
+```
+
+### 5) Run API
+
+```bash
+cd movieLibraryAPI
+dotnet run
+```
+
+Swagger UI is available in Development mode (default local run).
+
+---
+
+## Useful Commands
+
+Create a new migration:
+
+```bash
+dotnet tool run dotnet-ef migrations add <MigrationName> \
+  --project movieLibraryAPI/movieLibraryAPI.csproj \
+  --startup-project movieLibraryAPI/movieLibraryAPI.csproj \
+  --context MovieLibraryDbContext \
+  --output-dir Data/Migrations
+```
+
+Check database tables:
+
+```bash
+psql "host=localhost port=5432 dbname=movielibrary user=postgres password=postgres" -c "\dt"
+```
+
+---
+
+## Development Notes
+
+- EF migration files in `Data/Migrations` are source-controlled and should remain in Git.
+- `.config/dotnet-tools.json` should also be committed for consistent local tooling.
+- `bin/` and `obj/` should remain ignored.
+
+---
+
+## Stretch Goal
+
+- React frontend consuming this API.

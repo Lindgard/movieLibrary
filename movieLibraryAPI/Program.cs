@@ -14,6 +14,7 @@ builder.Services
             options.JsonSerializerOptions.Converters.Add(
             new JsonStringEnumConverter(namingPolicy: null, allowIntegerValues: false));
         });
+
 builder.Services.AddDbContext<MovieLibraryDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -22,8 +23,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSingleton<MovieService>();
-builder.Services.AddSingleton<TvShowService>();
+builder.Services.AddScoped<MovieService>();
+builder.Services.AddScoped<TvShowService>();
 
 var app = builder.Build();
 
