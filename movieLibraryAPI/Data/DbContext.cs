@@ -12,22 +12,12 @@ public class MovieLibraryDbContext : DbContext
     public DbSet<Episode> Episodes => Set<Episode>();
     public DbSet<MovieAndTvShowList> MovieAndTvShowLists => Set<MovieAndTvShowList>();
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        if (!options.IsConfigured)
-        {
-            options.UseNpgsql($"Host=localhost;Port=5432;Database=movielibrary;Username=postgres;Password=postgres");
-        }
-    }
-
     public MovieLibraryDbContext(DbContextOptions<MovieLibraryDbContext> options) : base(options)
     {
     }
 
-
-
     /// <summary>
-    /// Configure the many-to-many relationships between MovieAndTvShowList and Movie, and between MovieAndTvShowList and TvShow.
+    /// Configures the many-to-many relationships between MovieAndTvShowList and Movie, and between MovieAndTvShowList and TvShow.
     /// </summary>
     /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
