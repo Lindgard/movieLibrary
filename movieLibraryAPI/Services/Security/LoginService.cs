@@ -1,4 +1,4 @@
-using movieLibraryAPI.Models.Domain.Users;
+using movieLibraryAPI.Models.Domain;
 using System.Collections.Concurrent;
 
 namespace movieLibraryAPI.Services.Security;

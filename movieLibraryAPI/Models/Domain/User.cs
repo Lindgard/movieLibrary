@@ -1,4 +1,4 @@
-namespace movieLibraryAPI.Models.Domain.Users;
+namespace movieLibraryAPI.Models.Domain;
 
 public class User
 {
