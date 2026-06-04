@@ -24,7 +24,7 @@ This project now uses:
 -[ ] Create IUserRepository and UserRepository
 -[ ] Make IRecoveryTokenRepository + RecoveryToken entity/table
 -[ ] Make AuthController (register/login/recovery endpoints)
--[ ] Create PasswordPolicyValidator (length/complexity rules)
+-[x] Create PasswordPolicyValidator (length/complexity rules)
 
 ## Features
 
