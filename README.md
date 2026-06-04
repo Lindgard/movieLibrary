@@ -15,6 +15,17 @@ This project now uses:
 
 ---
 
+## TODO for project
+
+-[x] Create User model
+-[x] Make login service file
+-[x] Decide between bcrypt and Argon2
+-[x] Make DTOs for Users
+-[ ] Create IUserRepository and UserRepository
+-[ ] Make IRecoveryTokenRepository + RecoveryToken entity/table
+-[ ] Make AuthController (register/login/recovery endpoints)
+-[ ] Create PasswordPolicyValidator (length/complexity rules)
+
 ## Features
 
 - CRUD operations for Movies
@@ -86,13 +97,6 @@ Example connection string in `appsettings.json`:
 ```
 
 ---
-
-## TODO for project
-
--[x] Create User model
--[ ] Make login service file
--[ ] Decide between bcrypt and Argon2
--[ ] Make DTOs for Users
 
 ## Local Setup
 
