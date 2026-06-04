@@ -60,7 +60,7 @@ public class HashTokens
             throw new ArgumentException("Raw data and salt must not be null or empty.");
         }
 
-        byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
+        byte[] saltBytes = GetSaltBytes(salt);
         if (saltBytes.Length < MinSaltBytes)
         {
             throw new ArgumentException($"Salt must be at least {MinSaltBytes} bytes long.");
