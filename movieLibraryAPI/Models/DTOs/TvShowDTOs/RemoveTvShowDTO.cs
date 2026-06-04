@@ -1,6 +1,6 @@
 using movieLibraryAPI.Models.Domain;
 
-namespace movieLibraryAPI.Models.DTOs;
+namespace movieLibraryAPI.Models.DTOs.TvShowDTOs;
 
 public class RemoveTvShowDTO
 {

@@ -1,0 +1,10 @@
+namespace movieLibraryAPI.Models.Domain.Users;
+
+public class User
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public List<MovieAndTvShowList> MovieAndTvShowLists { get; set; } = new List<MovieAndTvShowList>();
+}

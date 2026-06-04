@@ -1,8 +1,8 @@
 using movieLibraryAPI.Models.Domain;
 
-namespace movieLibraryAPI.Models.DTOs;
+namespace movieLibraryAPI.Models.DTOs.TvShowDTOs;
 
-public class TvShowDTO
+public class CreateTvShowDTO
 {
     public string Title { get; set; } = string.Empty;
     public int ReleaseYear { get; set; }
@@ -12,5 +12,5 @@ public class TvShowDTO
     public string Creator { get; set; } = string.Empty;
     public int TotalEpisodes { get; set; }
     public TvShowSeasonDTO? Season { get; set; }
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 }
