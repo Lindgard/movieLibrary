@@ -87,6 +87,13 @@ Example connection string in `appsettings.json`:
 
 ---
 
+## TODO for project
+
+-[x] Create User model
+-[ ] Make login service file
+-[ ] Decide between bcrypt and Argon2
+-[ ] Make DTOs for Users
+
 ## Local Setup
 
 ### 1) Prerequisites
