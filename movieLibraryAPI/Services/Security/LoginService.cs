@@ -14,15 +14,4 @@ public class LoginService
         if (username == "admin" && password == "password") return true;
         return false;
     }
-
-    /// <summary>
-    /// Hashes the provided password using a simple encoding method. 
-    /// In a real application, you should use a secure hashing algorithm like bcrypt or Argon2.
-    /// </summary>
-    /// <param name="password">The password to hash.</param>
-    /// <returns>The hashed password.</returns>
-    private string HashPassword(string password)
-    {
-        return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
-    }
 }
