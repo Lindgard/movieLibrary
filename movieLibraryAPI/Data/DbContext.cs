@@ -11,6 +11,7 @@ public class MovieLibraryDbContext : DbContext
     public DbSet<Season> Seasons => Set<Season>();
     public DbSet<Episode> Episodes => Set<Episode>();
     public DbSet<MovieAndTvShowList> MovieAndTvShowLists => Set<MovieAndTvShowList>();
+    public DbSet<User> Users => Set<User>();
 
     public MovieLibraryDbContext(DbContextOptions<MovieLibraryDbContext> options) : base(options)
     {
@@ -73,5 +74,19 @@ public class MovieLibraryDbContext : DbContext
             .WithOne(s => s.TvShow)
             .HasForeignKey(s => s.TvShowId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Email)
+            .HasMaxLength(320)
+            .IsRequired();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Username)
+            .HasMaxLength(32)
+            .IsRequired();
     }
 }
