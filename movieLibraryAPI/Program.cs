@@ -2,6 +2,10 @@ using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using movieLibraryAPI.Services;
 using movieLibraryAPI.Data;
+using movieLibraryAPI.Data.Repositories;
+using movieLibraryAPI.Services.Security;
+using movieLibraryAPI.Services.Security.Interfaces;
+using movieLibraryAPI.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +29,10 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<TvShowService>();
+builder.Services.AddScoped<HashTokens>();
+builder.Services.AddScoped<IPasswordPolicyValidator, PasswordPolicyValidator>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRecoveryTokenRepository, RecoveryTokenRepository>();
 
 var app = builder.Build();
 
