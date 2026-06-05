@@ -21,7 +21,7 @@ This project now uses:
 -[x] Make login service file
 -[x] Decide between bcrypt and Argon2
 -[x] Make DTOs for Users
--[ ] Create IUserRepository and UserRepository
+-[x] Create IUserRepository and UserRepository
 -[ ] Make IRecoveryTokenRepository + RecoveryToken entity/table
 -[ ] Make AuthController (register/login/recovery endpoints)
 -[x] Create PasswordPolicyValidator (length/complexity rules)
