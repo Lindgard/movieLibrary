@@ -12,6 +12,7 @@ public class MovieLibraryDbContext : DbContext
     public DbSet<Episode> Episodes => Set<Episode>();
     public DbSet<MovieAndTvShowList> MovieAndTvShowLists => Set<MovieAndTvShowList>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<RecoveryToken> RecoveryTokens => Set<RecoveryToken>();
 
     public MovieLibraryDbContext(DbContextOptions<MovieLibraryDbContext> options) : base(options)
     {
@@ -88,5 +89,19 @@ public class MovieLibraryDbContext : DbContext
             .Property(u => u.Username)
             .HasMaxLength(32)
             .IsRequired();
+
+        modelBuilder.Entity<RecoveryToken>(entity =>
+        {
+            entity.HasKey(rt => rt.RecoveryTokenId);
+
+            entity.HasOne(rt => rt.User)
+                .WithMany(u => u.RecoveryTokens)
+                .HasForeignKey(rt => rt.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasIndex(rt => rt.UserId);
+            entity.Property(rt => rt.TokenHash).IsRequired();
+            entity.Property(rt => rt.TokenSalt).IsRequired();
+        });
     }
 }

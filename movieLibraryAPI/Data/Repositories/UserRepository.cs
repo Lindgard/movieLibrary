@@ -58,7 +58,7 @@ public class UserRepository : IUserRepository
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            UserId = Guid.NewGuid(),
             Email = normalizedEmail,
             Username = username,
             PasswordHash = passwordHash,
@@ -113,7 +113,7 @@ public class UserRepository : IUserRepository
             throw new KeyNotFoundException("User not found.");
         }
 
-        return user.Id.ToString();
+        return user.UserId.ToString();
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public class UserRepository : IUserRepository
         user.PasswordUpdatedAtUtc = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
-        return user.Id.ToString();
+        return user.UserId.ToString();
     }
 
     /// <summary>
