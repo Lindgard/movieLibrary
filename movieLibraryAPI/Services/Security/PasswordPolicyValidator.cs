@@ -1,8 +1,10 @@
+using movieLibraryAPI.Services.Security.Interfaces;
+
 namespace movieLibraryAPI.Services.Security;
 
-public class PasswordPolicyValidator
+public class PasswordPolicyValidator : IPasswordPolicyValidator
 {
-    public bool Validate(string password)
+    public bool ValidatePassword(string password)
     {
         //* Check for minimum length
         if (password.Length < 8)
