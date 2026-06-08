@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using movieLibraryAPI.Models.Domain;
-using movieLibraryAPI.Models;
+using movieLibraryService.Models.Domain;
+using movieLibraryService.Models;
 
 namespace movieLibraryAPI.Data;
 

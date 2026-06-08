@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using movieLibraryAPI.Data.Repositories.Interfaces;
-using movieLibraryAPI.Services.Security;
+using movieLibraryService.Services.Security;
 using System.Security.Cryptography;
-using movieLibraryAPI.Models.Domain;
+using movieLibraryService.Models.Domain;
 
 namespace movieLibraryAPI.Data.Repositories;
 

@@ -1,5 +1,5 @@
-using movieLibraryAPI.Models.Domain;
-using movieLibraryAPI.Models.DTOs.TvShowDTOs;
+using movieLibraryService.Models.Domain;
+using movieLibraryService.Models.DTOs.TvShowDTOs;
 
 namespace movieLibraryAPI.Mappings;
 
