@@ -17,14 +17,17 @@ This project now uses:
 
 ## TODO for project
 
--[x] Create User model
--[x] Make login service file
--[x] Decide between bcrypt and Argon2
--[x] Make DTOs for Users
--[x] Create IUserRepository and UserRepository
--[ ] Make IRecoveryTokenRepository + RecoveryToken entity/table
--[ ] Make AuthController (register/login/recovery endpoints)
--[x] Create PasswordPolicyValidator (length/complexity rules)
+- [x] Create User model
+- [x] Make login service file
+- [x] Decide between bcrypt and Argon2
+- [x] Make DTOs for Users
+- [x] Create IUserRepository and UserRepository
+- [x] Make IRecoveryTokenRepository + RecoveryToken entity/table
+- [ ] Make AuthController (register/login/recovery endpoints)
+- [x] Create PasswordPolicyValidator (length/complexity rules)
+- [x] Add Argon2 to log-in services
+- [ ] Build view files for the lists
+- [ ] Set up Docker with compose and file
 
 ## Features
 
@@ -34,6 +37,10 @@ This project now uses:
 - Combined list model (`MovieAndTvShowList`) with many-to-many relations to:
   - `Movie`
   - `TvShow`
+- Login service with
+  - Password validator
+  - Hashtokens
+  - User and recovery token repositories
 
 ---
 
@@ -176,4 +183,4 @@ psql "host=localhost port=5432 dbname=movielibrary user=postgres password=postgr
 
 ## Stretch Goal
 
-- React frontend consuming this API.
+- React(native) frontend consuming this API.
