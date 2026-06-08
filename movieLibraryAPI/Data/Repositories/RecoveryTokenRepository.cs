@@ -18,6 +18,12 @@ public class RecoveryTokenRepository : IRecoveryTokenRepository
         _hashTokens = hashTokens;
     }
 
+    /// <summary>
+    /// Generates a new recovery token for the user associated with the provided email.
+    /// </summary>
+    /// <param name="email">The email of the user for whom to generate the recovery token.</param>
+    /// <returns>The generated recovery token.</returns>
+    /// <exception cref="ArgumentException">Thrown if no user is found with the provided email.</exception>
     public async Task<string> CreateRecoveryTokenAsync(string email)
     {
         string normalizedEmail = NormalizeEmail(email);
@@ -66,6 +72,11 @@ public class RecoveryTokenRepository : IRecoveryTokenRepository
         return $"{tokenEntity.RecoveryTokenId:N}.{secret}";
     }
 
+    /// <summary>
+    /// Invalidates the specified recovery token, preventing any future validation from succeeding.
+    /// </summary>
+    /// <param name="token">The recovery token to invalidate.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task InvalidateRecoveryTokenAsync(string token)
     {
         if (!TryParseToken(token, out Guid tokenId, out _))
@@ -85,6 +96,11 @@ public class RecoveryTokenRepository : IRecoveryTokenRepository
         await _context.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Validates the specified recovery token, checking if it is still valid and has not been used or invalidated.
+    /// </summary>
+    /// <param name="token">The recovery token to validate.</param>
+    /// <returns>A task representing the asynchronous operation, with a result indicating whether the token is valid.</returns>
     public async Task<bool> ValidateRecoveryTokenAsync(string token)
     {
         if (!TryParseToken(token, out Guid tokenId, out string secret))
@@ -111,6 +127,37 @@ public class RecoveryTokenRepository : IRecoveryTokenRepository
         return _hashTokens.VerifyHash(tokenEntity.TokenHash, secret, tokenEntity.TokenSalt);
     }
 
+    /// <summary>
+    /// Marks the token as used, preventing any future validation from succeeding. 
+    /// This should be called after a successful password reset to ensure the token cannot be reused.
+    /// </summary>
+    /// <param name="token">The recovery token to mark as used.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task MarkTokenAsUsedAsync(string token)
+    {
+        if (!TryParseToken(token, out Guid tokenId, out _))
+        {
+            return;
+        }
+
+        RecoveryToken? tokenEntity = await _context.RecoveryTokens
+            .SingleOrDefaultAsync(t => t.RecoveryTokenId == tokenId);
+
+        if (tokenEntity is null || tokenEntity.UsedAtUtc != null)
+        {
+            return;
+        }
+
+        tokenEntity.UsedAtUtc = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Normalizes the provided email by trimming whitespace and converting it to lowercase.
+    /// </summary>
+    /// <param name="email">The email address to normalize.</param>
+    /// <returns>The normalized email address.</returns>
+    /// <exception cref="ArgumentException">Thrown if the email is null or empty.</exception>
     private static string NormalizeEmail(string email)
     {
         if (string.IsNullOrWhiteSpace(email))
@@ -120,11 +167,23 @@ public class RecoveryTokenRepository : IRecoveryTokenRepository
         return email.Trim().ToLowerInvariant();
     }
 
+    /// <summary>
+    /// Generates a secure random secret for use in recovery tokens. 
+    /// The secret is a 64-character hexadecimal string (32 bytes).
+    /// </summary>
+    /// <returns></returns>
     private static string GenerateSecret()
     {
         return Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
     }
 
+    /// <summary>
+    /// Attempts to parse the provided token string into its components: the token ID and the secret.
+    /// </summary>
+    /// <param name="token">The token string to parse.</param>
+    /// <param name="tokenId">The parsed token ID.</param>
+    /// <param name="secret">The parsed secret.</param>
+    /// <returns>True if the token was successfully parsed; otherwise, false.</returns>
     private static bool TryParseToken(string token, out Guid tokenId, out string secret)
     {
         tokenId = Guid.Empty;
