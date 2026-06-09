@@ -1,10 +1,10 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
-using movieLibraryAPI.Services;
+using movieLibraryService.Services;
 using movieLibraryAPI.Data;
 using movieLibraryAPI.Data.Repositories;
-using movieLibraryAPI.Services.Security;
-using movieLibraryAPI.Services.Security.Interfaces;
+using movieLibraryService.Services.Security;
+using movieLibraryService.Services.Security.Interfaces;
 using movieLibraryAPI.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +33,7 @@ builder.Services.AddScoped<HashTokens>();
 builder.Services.AddScoped<IPasswordPolicyValidator, PasswordPolicyValidator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRecoveryTokenRepository, RecoveryTokenRepository>();
+builder.Services.AddScoped<LoginService>();
 
 var app = builder.Build();
 
