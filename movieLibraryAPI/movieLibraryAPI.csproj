@@ -23,6 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\movieLibraryService\movieLibraryService.csproj" />
+    <ProjectReference Include="..\movieLibrary.Service\movieLibraryService.csproj" />
   </ItemGroup>
 </Project>

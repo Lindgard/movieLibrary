@@ -1,4 +1,3 @@
-using movieLibraryService.Models.Domain;
 using System.Collections.Concurrent;
 
 namespace movieLibraryService.Services.Security;
