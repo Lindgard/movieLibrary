@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieLibrary.Tests", "movie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieLibraryService", "movieLibrary.Service\movieLibraryService.csproj", "{1F19D1AB-B7E9-4D15-9EC3-49111771A3E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "movieLibrary.Service", "movieLibrary.Service", "{CD62757D-FFAF-C3C6-5D7A-119F10FBD7C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,9 +60,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{1F19D1AB-B7E9-4D15-9EC3-49111771A3E1} = {CD62757D-FFAF-C3C6-5D7A-119F10FBD7C8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {206838D5-4CD7-4590-9778-72FE3FFBA456}

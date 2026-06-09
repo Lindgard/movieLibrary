@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using movieLibraryAPI.Models.Response;
-using movieLibraryAPI.Services;
-using movieLibraryAPI.Models.DTOs.MovieDTOs;
+using movieLibraryService.Models.Response;
+using movieLibraryService.Services;
+using movieLibraryService.Models.DTOs.MovieDTOs;
 using movieLibraryAPI.Mappings;
 
 namespace movieLibraryAPI.Controllers;

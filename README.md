@@ -25,7 +25,7 @@ This project now uses:
 - [x] Make IRecoveryTokenRepository + RecoveryToken entity/table
 - [x] Create PasswordPolicyValidator (length/complexity rules)
 - [x] Add Argon2 to log-in services
-- [ ] Move Models and Service folders to movieLibrary.Service folder
+- [x] Move Models and Service folders to movieLibrary.Service folder
 - [ ] Build view files for the lists
 - [ ] Make AuthController (register/login/recovery endpoints)
 - [ ] Set up Docker with compose and file
