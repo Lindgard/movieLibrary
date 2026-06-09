@@ -1,19 +1,100 @@
 # Movie Library API
 
-A .NET Web API for managing movies, TV shows, seasons, episodes, and mixed media lists.
+A .NET Web API for managing movies, TV shows, seasons, episodes, and mixed media lists, with authentication and password recovery support.
 
 ## Current Status
 
-This project now uses:
+This project currently uses:
 
 - ASP.NET Core Web API (`net10.0`)
-- Entity Framework Core
-- PostgreSQL (`Npgsql`)
+- Entity Framework Core + PostgreSQL (`Npgsql`)
 - EF Core Migrations
 - Swagger / OpenAPI
-- Layered structure with controllers, services, mappings, DTOs, and domain models
+- Layered structure split into:
+  - `movieLibraryAPI` (API host, controllers, data access)
+  - `movieLibrary.Service` (domain models, DTOs, services, security logic)
 
 ---
+
+## Implemented Features
+
+- CRUD operations for Movies
+- CRUD operations for TV Shows
+- TV Shows with Seasons and Episodes
+- Combined list model (`MovieAndTvShowList`)
+- Authentication flow:
+  - Register
+  - Login
+  - Password recovery request
+  - Password recovery confirm/reset
+- Security components:
+  - `LoginService`
+  - `PasswordPolicyValidator`
+  - `HashTokens`
+  - User repository + recovery token repository
+- `AuthController` integrated with service-layer `ApiResponse<T>` pattern
+
+---
+
+## Project Structure
+
+````text
+movieLibrary/
+├── movieLibraryAPI/
+│   ├── Controllers/
+│   │   ├── AuthController.cs
+│   │   ├── MovieApiController.cs
+│   │   └── TvShowApiController.cs
+│   ├── Data/
+│   │   ├── DbContext.cs
+│   │   ├── Migrations/
+│   │   └── Repositories/
+│   │       ├── Interfaces/
+│   │       ├── UserRepository.cs
+│   │       └── RecoveryTokenRepository.cs
+│   ├── Mappings/
+│   ├── Program.cs
+│   └── movieLibraryAPI.csproj
+└── movieLibrary.Service
+    ├── Models/
+    │   ├── Domain/
+    │   ├── DTOs/
+    │   └── Response/
+    ├── Services/
+    │   ├── MovieService.cs
+    │   ├── TvShowService.cs
+    │   └── Security/
+    │       ├── LoginService.cs
+    │       ├── HashTokens.cs
+    │       ├── PasswordPolicyValidator.cs
+    │       └── Interfaces/
+    └── movieLibraryService.csproj
+````
+
+## Authentication Flow
+
+```mermaid
+flowchart TD
+    A[Client] --> B[POST /api/Auth/register]
+    A --> C[POST /api/Auth/login]
+    A --> D[POST /api/Auth/password-recovery/request]
+    A --> E[POST /api/Auth/password-recovery/confirm]
+
+    B --> F[AuthController]
+    C --> F
+    D --> F
+    E --> F
+
+    F --> G[LoginService]
+    G --> H[PasswordPolicyValidator]
+    G --> I[HashTokens / Argon2id]
+    G --> J[UserRepository]
+    G --> K[RecoveryTokenRepository]
+
+    G --> L[ApiResponse<T>]
+    L --> M[HTTP Result Mapping in AuthController]
+    M --> A
+```
 
 ## TODO for project
 
@@ -27,65 +108,17 @@ This project now uses:
 - [x] Add Argon2 to log-in services
 - [x] Move Models and Service folders to movieLibrary.Service folder
 - [ ] Build view files for the lists
-- [ ] Make AuthController (register/login/recovery endpoints)
+- [x] Make AuthController (register/login/recovery endpoints)
 - [ ] Set up Docker with compose and file
 
-## Features
+## Auth Endpoints
 
-- CRUD operations for Movies
-- CRUD operations for TV Shows
-- TV Shows include Seasons and Episodes
-- Combined list model (`MovieAndTvShowList`) with many-to-many relations to:
-  - `Movie`
-  - `TvShow`
-- Login service with
-  - Password validator
-  - Hashtokens
-  - User and recovery token repositories
+Base route: api/Auth
 
----
-
-## Project Structure
-
-```mermaid
-  flowchart TD
-    A[Clients<br/>Swagger / HTTP / Frontend] --> B[Controllers]
-    B --> C[Services]
-    C --> D[Mappings]
-    D --> E[DTOs]
-    C --> F[Domain Models]
-    C --> G[MovieLibraryDbContext]
-    G --> H[(PostgreSQL)]
-    
-    subgraph API["movieLibraryAPI"]
-        B[Controllers<br/>MovieApiController<br/>TvShowApiController]
-        C[Services<br/>MovieService<br/>TvShowService]
-        D[Mappings<br/>MovieMappings<br/>TvShowMappings]
-        E[Models/DTOs<br/>Create/Update/Read DTOs]
-        F[Models/Domain<br/>Movie, TvShow, Season, Episode, Genres, MovieAndTvShowList]
-        G[Data<br/>DbContext + Migrations]
-    end
-```
-
-- `movieLibraryAPI/Controllers`
-  - `MovieApiController.cs`
-  - `TvShowApiController.cs`
-- `movieLibraryAPI/Services`
-  - `MovieService.cs`
-  - `TvShowService.cs`
-- `movieLibraryAPI/Mappings`
-  - `MovieMappings.cs`
-  - `TvShowMappings.cs`
-- `movieLibraryAPI/Models`
-  - `Domain/` (`Movie`, `TvShow`, `Season`, `Episode`, `Genres`)
-  - `DTOs/` (Create/Update/Read DTOs)
-  - `MovieAndTvShowList.cs`
-  - `Response/ApiResponse.cs`
-- `movieLibraryAPI/Data`
-  - `DbContext.cs`
-  - `Migrations/` (EF Core migration history)
-
----
+- POST '/api/Auth/register'
+- POST '/api/Auth/login'
+- POST '/api/Auth/password-recovery/request'
+- POST '/api/Auth/password-recovery/confirm'
 
 ## Database
 
@@ -103,8 +136,6 @@ Example connection string in `appsettings.json`:
   }
 }
 ```
-
----
 
 ## Local Setup
 
