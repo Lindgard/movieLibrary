@@ -36,6 +36,64 @@ This project currently uses:
 
 ---
 
+## Full Project Flow
+
+```mermaid
+flowchart LR
+    %% External
+    Client[Client / Frontend / Swagger]
+
+    %% API Layer
+    subgraph API["movieLibraryAPI"]
+        Program[Program.cs\nDI + Middleware + Swagger]
+        Controllers[Controllers\n- AuthController\n- MovieApiController\n- TvShowApiController]
+        Mappings[Mappings\nMovieMappings / TvShowMappings]
+        DbCtx[Data/DbContext.cs\nMovieLibraryDbContext]
+        Repos[Data/Repositories\n- UserRepository\n- RecoveryTokenRepository]
+        ReposI[Data/Repositories/Interfaces\n- IUserRepository\n- IRecoveryTokenRepository]
+        Migrations[Data/Migrations]
+        Config[appsettings*.json\nConnectionStrings]
+    end
+
+    %% Service Layer
+    subgraph Service["movieLibrary.Service"]
+        Services[Services\n- MovieService\n- TvShowService]
+        Security[Services/Security\n- LoginService\n- HashTokens\n- PasswordPolicyValidator]
+        SecurityI[Services/Security/Interfaces\n- IPasswordPolicyValidator]
+        DTOs[Models/DTOs\nMovieDTOs / TvShowDTOs / UserDTOs]
+        Domain[Models/Domain\nMovie / TvShow / Season / Episode / User / RecoveryToken]
+        Response[Models/Response\nApiResponse<T>]
+        Shared[Models/MovieAndTvShowList]
+    end
+
+    %% Database
+    DB[(PostgreSQL)]
+
+    %% Main runtime flow
+    Client --> Program --> Controllers
+    Controllers --> Mappings
+    Controllers --> DTOs
+    Controllers --> Response
+
+    Controllers --> Services
+    Controllers --> Security
+
+    Services --> Domain
+    Services --> DTOs
+    Services --> Response
+
+    Security --> SecurityI
+    Security --> DTOs
+    Security --> Response
+    Security --> Repos
+    Security --> Domain
+
+    Repos --> ReposI
+    Repos --> DbCtx --> DB
+    Migrations --> DbCtx
+    Config --> Program
+```
+
 ## Project Structure
 
 ````text
