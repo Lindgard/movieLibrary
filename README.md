@@ -16,6 +16,21 @@ This project currently uses:
 
 ---
 
+## TODO for project
+
+- [x] Create User model
+- [x] Make login service file
+- [x] Decide between bcrypt and Argon2
+- [x] Make DTOs for Users
+- [x] Create IUserRepository and UserRepository
+- [x] Make IRecoveryTokenRepository + RecoveryToken entity/table
+- [x] Create PasswordPolicyValidator (length/complexity rules)
+- [x] Add Argon2 to log-in services
+- [x] Move Models and Service folders to movieLibrary.Service folder
+- [ ] Build view files for the lists
+- [x] Make AuthController (register/login/recovery endpoints)
+- [ ] Set up Docker with compose and file
+
 ## Implemented Features
 
 - CRUD operations for Movies
@@ -153,21 +168,6 @@ flowchart TD
     L --> M[HTTP Result Mapping in AuthController]
     M --> A
 ```
-
-## TODO for project
-
-- [x] Create User model
-- [x] Make login service file
-- [x] Decide between bcrypt and Argon2
-- [x] Make DTOs for Users
-- [x] Create IUserRepository and UserRepository
-- [x] Make IRecoveryTokenRepository + RecoveryToken entity/table
-- [x] Create PasswordPolicyValidator (length/complexity rules)
-- [x] Add Argon2 to log-in services
-- [x] Move Models and Service folders to movieLibrary.Service folder
-- [ ] Build view files for the lists
-- [x] Make AuthController (register/login/recovery endpoints)
-- [ ] Set up Docker with compose and file
 
 ## Auth Endpoints
 
