@@ -27,8 +27,9 @@ This project currently uses:
 - [x] Create PasswordPolicyValidator (length/complexity rules)
 - [x] Add Argon2 to log-in services
 - [x] Move Models and Service folders to movieLibrary.Service folder
-- [ ] Build view files for the lists
 - [x] Make AuthController (register/login/recovery endpoints)
+- [ ] Create JWT token service and token-usage in login service-related files
+- [ ] Build view files for the lists
 - [ ] Set up Docker with compose and file
 
 ## Implemented Features
