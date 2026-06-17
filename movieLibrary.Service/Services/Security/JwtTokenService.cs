@@ -37,5 +37,19 @@ public class JwtTokenService
             new Claim("userId", userId),
             new Claim(ClaimTypes.NameIdentifier, userId)
         };
+
+        var signingKey = new SymmetricSecurityKey(keyBytes);
+        var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            notBefore: now,
+            expires: now.AddMinutes(expirationInMinutes),
+            signingCredentials: signingCredentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
