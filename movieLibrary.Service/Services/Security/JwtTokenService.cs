@@ -33,9 +33,9 @@ public class JwtTokenService
         if (expirationInMinutes <= 0) throw new ArgumentException("Expiration time must be greater than zero.", nameof(expirationInMinutes));
 
         var keyBytes = Encoding.UTF8.GetBytes(secretKey);
-        if (keyBytes.Length < 16)
+        if (keyBytes.Length < 32)
         {
-            throw new ArgumentException("Secret key must be at least 16 bytes long.", nameof(secretKey));
+            throw new ArgumentException("Secret key must be at least 32 bytes long.", nameof(secretKey));
         }
 
         var now = DateTime.UtcNow;
@@ -118,5 +118,20 @@ public class JwtTokenService
         {
             return null;
         }
+    }
+
+    /// <summary>
+    /// Extracts the user ID from a valid JWT token. Returns null if the token is invalid or does not contain a user ID claim.
+    /// </summary>
+    /// <param name="token">The JWT token from which to extract the user ID.</param>
+    /// <param name="secretKey">The secret key used to validate the token's signature.</param>
+    /// <param name="issuer">The expected issuer of the token.</param>
+    /// <param name="audience">The expected audience of the token.</param>
+    /// <returns>The user ID if the token is valid and contains a user ID claim; otherwise, null.</returns>
+    public string? GetUserIdFromToken(string token, string secretKey, string issuer, string audience)
+    {
+        var principal = ValidateToken(token, secretKey, issuer, audience);
+        return principal?.FindFirst("userId")?.Value
+            ?? principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 }
