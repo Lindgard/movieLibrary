@@ -6,6 +6,17 @@ namespace movieLibraryService.Services.Security;
 
 public class JwtTokenService
 {
+    /// <summary>
+    /// Generates a JWT token for the specified user ID with the given parameters.
+    /// </summary>
+    /// <param name="userId">The ID of the user for whom the token is being generated.</param>
+    /// <param name="secretKey">The secret key used to sign the token.</param>
+    /// <param name="issuer">The issuer of the token.</param>
+    /// <param name="audience">The audience for the token.</param>
+    /// <param name="subject">The subject of the token.</param>
+    /// <param name="expirationInMinutes">The expiration time of the token in minutes.</param>
+    /// <returns>The generated JWT token as a string.</returns>
+    /// <exception cref="ArgumentException">Thrown when any of the parameters are invalid.</exception>
     public string GenerateToken(
         string userId,
         string secretKey,
@@ -51,5 +62,61 @@ public class JwtTokenService
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    /// <summary>
+    /// Validates a JWT token and returns the associated ClaimsPrincipal if valid, or null if invalid.
+    /// </summary>
+    /// <param name="token">The JWT token to validate.</param>
+    /// <param name="secretKey">The secret key used to validate the token's signature.</param>
+    /// <param name="issuer">The expected issuer of the token.</param>
+    /// <param name="audience">The expected audience of the token.</param>
+    /// <param name="validateLifetime">Whether to validate the token's expiration.</param>
+    /// <returns>The ClaimsPrincipal if the token is valid; otherwise, null.</returns>
+    public ClaimsPrincipal? ValidateToken(
+        string token,
+        string secretKey,
+        string issuer,
+        string audience,
+        bool validateLifetime = true)
+    {
+        if (string.IsNullOrWhiteSpace(token)) return null;
+        if (string.IsNullOrWhiteSpace(secretKey)) return null;
+
+        var keyBytes = Encoding.UTF8.GetBytes(secretKey);
+        if (keyBytes.Length < 32) return null;
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+
+            ValidateIssuer = true,
+            ValidIssuer = issuer,
+
+            ValidateAudience = true,
+            ValidAudience = audience,
+
+            ValidateLifetime = validateLifetime,
+            ClockSkew = TimeSpan.Zero
+        };
+
+        try
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var principal = handler.ValidateToken(token, validationParameters, out var validatedToken);
+
+            if (validatedToken is not JwtSecurityToken jwt ||
+                !jwt.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            {
+                return null;
+            }
+
+            return principal;
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
