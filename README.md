@@ -29,7 +29,7 @@ This project currently uses:
 - [x] Move Models and Service folders to movieLibrary.Service folder
 - [x] Make AuthController (register/login/recovery endpoints)
 - [x] Add Jwt Bearer package
-- [ ] Create JWT token service and token-usage in login service-related files
+- [x] Create JWT token service and token-usage in login service-related files
 - [ ] Build view files for the lists
 - [ ] Set up Docker with compose and file
 
