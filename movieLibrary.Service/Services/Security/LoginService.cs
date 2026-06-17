@@ -4,9 +4,18 @@ using movieLibraryService.Models.Response;
 
 namespace movieLibraryService.Services.Security;
 
+public record JwtOptions(
+    string SecretKey,
+    string Issuer,
+    string Audience,
+    int ExpirationInMinutes
+);
+
 public class LoginService
 {
     private readonly HashTokens _hashTokens = new();
+    private readonly JwtTokenService _jwtTokenService;
+    private readonly JwtOptions _jwtOptions;
 
     private readonly ConcurrentDictionary<string, UserCredentials> _users = new(StringComparer.OrdinalIgnoreCase);
     private readonly ConcurrentDictionary<string, RecoveryTicket> _recoveryTickets = new(StringComparer.OrdinalIgnoreCase);
@@ -15,8 +24,11 @@ public class LoginService
     /// Initializes the LoginService with a default admin user. 
     /// The default credentials are "admin" for the username and "password" for the password.
     /// </summary>
-    public LoginService()
+    public LoginService(JwtTokenService jwtTokenService, JwtOptions jwtOptions)
     {
+        _jwtTokenService = jwtTokenService;
+        _jwtOptions = jwtOptions;
+
         SetupOrUpdatePasswordAsync("admin", "password").GetAwaiter().GetResult();
     }
 
@@ -52,10 +64,10 @@ public class LoginService
     }
 
     /// <summary>
-    /// Authenticates a user based on the provided username and password.
-    /// The method checks if the username and password are valid and if the credentials match an existing user. 
-    /// If the authentication is successful, it returns an ApiResponse with a success message; 
-    /// otherwise, it returns an ApiResponse with an appropriate error message and status code.
+    /// Authenticates a user with the provided username and password. 
+    /// If the authentication is successful, it generates a JWT token for the user and returns it in an ApiResponse. 
+    /// If the authentication fails, it returns an ApiResponse with an appropriate error message and status code. 
+    /// The method also checks for cancellation requests through the provided CancellationToken.
     /// </summary>
     /// <param name="userLoginDTO">The DTO containing the user's login information.</param>
     /// <param name="ct">The cancellation token.</param>
@@ -70,7 +82,21 @@ public class LoginService
         }
 
         var valid = await LoginAsync(userLoginDTO.Username, userLoginDTO.Password, ct);
-        return valid ? Ok("Login successful.") : Fail<string>(401, "Invalid username or password.");
+        if (!valid)
+        {
+            return Fail<string>(401, "Invalid username or password.");
+        }
+
+        var token = _jwtTokenService.GenerateToken(
+            userId: userLoginDTO.Username,
+            secretKey: _jwtOptions.SecretKey,
+            issuer: _jwtOptions.Issuer,
+            audience: _jwtOptions.Audience,
+            subject: userLoginDTO.Username,
+            expirationInMinutes: _jwtOptions.ExpirationInMinutes
+        );
+
+        return Ok(token);
     }
 
     /// <summary>
