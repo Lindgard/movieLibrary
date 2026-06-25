@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieLibraryAPI", "movieLibraryAPI\movieLibraryAPI.csproj", "{C5D4329C-4F5C-38FE-7F0C-DCF9A32B96CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieLibrary.API", "movieLibrary.API\movieLibraryAPI.csproj", "{C5D4329C-4F5C-38FE-7F0C-DCF9A32B96CB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "movieLibrary.Tests", "movieLibrary.Tests\movieLibrary.Tests.csproj", "{25AE85DD-FA82-49C1-9833-86026815420E}"
 EndProject
